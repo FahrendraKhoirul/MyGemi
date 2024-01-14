@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:mygemi/app/routes/app_pages.dart';
 import 'package:mygemi/constant.dart';
 
 import '../controllers/home_controller.dart';
@@ -49,14 +50,18 @@ class HomeView extends GetView<HomeController> {
                   subtitle: "Text-only input",
                   description:
                       "The best model for scaling across\na wide range of task",
-                  func: () {}),
+                  func: () {
+                    Get.toNamed(Routes.GEMINI_PRO);
+                  }),
               const SizedBox(height: 20),
               featureCard(
                   title: "Pro Vision",
                   subtitle: "Text-and-Image input",
                   description:
                       "The best image understanding model to \nhandle a broad range of application",
-                  func: () {}),
+                  func: () {
+                    Get.toNamed(Routes.GEMINI_PRO_VISION);
+                  }),
               Flexible(child: Container()),
               const Center(child: Text("Powered by Gemini AI"))
             ],

@@ -9,16 +9,26 @@ class GeminiProView extends GetView<GeminiProController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('GeminiProView'),
-        centerTitle: true,
-      ),
-      body: const Center(
-        child: Text(
-          'GeminiProView is working',
-          style: TextStyle(fontSize: 20),
+        appBar: AppBar(
+          title: const Text('GeminiProView'),
+          centerTitle: true,
         ),
-      ),
-    );
+        body: controller.obx(
+          (state) {
+            return ListView.builder(
+              itemCount: state!.contents!.length,
+              itemBuilder: (context, index) {
+                
+                return Container(child: Text("asdasd"),);
+                // return Container(child: Text(state.contents[index].),);
+              },
+            );
+          },
+          onEmpty: Center(
+              child: Image.asset(
+            "assets/images/paper planes.png",
+            width: 100,
+          )),
+        ));
   }
 }

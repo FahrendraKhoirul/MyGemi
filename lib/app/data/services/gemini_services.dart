@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -26,7 +25,15 @@ class GeminiAPI {
           options: Options(headers: {"Content-Type": "application/json"}));
 
       if (response.statusCode == 200) {
-        var result = Contents.fromJson(response.data["candidates"][0]);
+        var result = Contents(
+          parts: [
+            Parts(
+                text: response.data["candidates"][0]["content"]["parts"][0]
+                    ["text"])
+          ],
+          role: response.data["candidates"][0]["content"]["role"],
+        );
+        // print("TESSS Result Services:" + response.data.toString());
         return result;
       } else {
         return Contents(parts: [Parts(text: response.statusMessage)]);
