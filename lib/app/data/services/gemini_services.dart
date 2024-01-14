@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
+import 'package:mygemi/app/data/models/gemini_pro_model.dart';
 
 class GeminiAPI {
   static const myGeminiApi = "AIzaSyB4e9E_vKK4izqXWzo1kmnQ0FfmDXI58L8";
@@ -17,29 +18,25 @@ class GeminiAPI {
     };
   }
 
-  static Future<List<String, dynamic>> getGeminiPro(
-      Map<String, dynamic> body) async {
+  static Future<Contents?> getGeminiPro(GeminiPro body) async {
     try {
       final response = await dio.post(geminiProUrl,
-          data: body,
+          data: body.toJson(),
           queryParameters: {"key": myGeminiApi},
           options: Options(headers: {"Content-Type": "application/json"}));
 
       if (response.statusCode == 200) {
-        var jsonResponse = jsonDecode(response.data) as Map<String, dynamic>;
-        return jsonResponse['candidates'][0]["content"];
+        var result = Contents.fromJson(response.data["candidates"][0]);
+        return result;
       } else {
-        return {
-          "statusCode": response.statusCode.toString(),
-          "message": response.statusMessage
-        };
+        return Contents(parts: [Parts(text: response.statusMessage)]);
       }
     } catch (e, s) {
       log(e.toString(), stackTrace: s);
       if (e is DioException) {
-        return {"message": e.response?.data['message']};
+        return Contents(parts: [Parts(text: e.message)]);
       }
-      return {"message": e.toString()};
+      return Contents(parts: [Parts(text: e.toString())]);
     }
   }
 }
