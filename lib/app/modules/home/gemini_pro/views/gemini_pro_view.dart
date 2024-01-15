@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_animate/flutter_animate.dart';
 
 import 'package:get/get.dart';
+import 'package:mygemi/app/data/models/gemini_pro_model.dart';
 import 'package:mygemi/app/widgets/global_widgets.dart';
 import 'package:mygemi/constant.dart';
 
@@ -10,13 +12,12 @@ class GeminiProView extends GetView<GeminiProController> {
   const GeminiProView({Key? key}) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    TextEditingController inputController = TextEditingController();
-    ScrollController inputScrollController = ScrollController();
-
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
           title: const Text('GeminiProView'),
           centerTitle: true,
+          backgroundColor: Colors.transparent,
         ),
         body: Container(
           height: double.infinity,
@@ -29,39 +30,23 @@ class GeminiProView extends GetView<GeminiProController> {
                   child: controller.obx(
                 (state) {
                   return ListView.builder(
+                    controller: controller.scrollController.value,
                     padding:
                         const EdgeInsets.symmetric(vertical: defaultPadding),
                     itemCount: state!.contents!.length,
                     itemBuilder: (context, index) {
-                      return Container(
-                        padding:
-                            const EdgeInsets.only(bottom: defaultPadding / 2),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            state.contents![index].role == "user"
-                                ? userIcon("assets/images/icon_paper plane.png",
-                                    customGreyIcon, "You")
-                                : userIcon("assets/images/icon_gemini.png",
-                                    customBlack, "Gemini"),
-                            const SizedBox(
-                              height: 5,
-                            ),
-                            Row(
-                              children: [
-                                const SizedBox(
-                                  width: 39,
-                                ),
-                                Expanded(
-                                    child: Text(
-                                  state.contents![index].parts![0].text!,
-                                  style: regular14,
-                                ))
-                              ],
-                            )
-                          ],
-                        ),
-                      );
+                      return state.contents![index].role == "user"
+                          ? itemChat(state, index)
+                              .animate(delay: const Duration(milliseconds: 250))
+                              .fadeIn()
+                          : controller.isThinking.value ? Image.asset(
+                                      "assets/images/icon_paper plane.png")
+                                  .animate(
+                                      delay: const Duration(milliseconds: 250))
+                                  .shake()
+                              : itemChat(state, index)
+                              .animate(delay: const Duration(milliseconds: 500))
+                              .fadeIn();
                     },
                   );
                 },
@@ -71,12 +56,45 @@ class GeminiProView extends GetView<GeminiProController> {
                   width: 100,
                 )),
               )),
-              inputForm(inputController, inputScrollController, () {
-                controller.generateContent(inputController.text);
+              inputForm(controller.inputController.value, () {
+                controller
+                    .generateContent(controller.inputController.value.text);
+                controller.inputController.value.clear();
               })
             ],
           ),
         ));
+  }
+
+  Container itemChat(GeminiPro state, int index) {
+    return Container(
+      padding: const EdgeInsets.only(bottom: defaultPadding / 2),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          state.contents![index].role == "user"
+              ? userIcon(
+                  "assets/images/icon_paper plane.png", customGreyIcon, "You")
+              : userIcon(
+                  "assets/images/icon_gemini.png", customBlack, "Gemini"),
+          const SizedBox(
+            height: 5,
+          ),
+          Row(
+            children: [
+              const SizedBox(
+                width: 39,
+              ),
+              Expanded(
+                  child: Text(
+                state.contents![index].parts![0].text!,
+                style: regular14,
+              ))
+            ],
+          )
+        ],
+      ),
+    );
   }
 
   Row userIcon(String imgPath, Color bgColor, String userText) {
