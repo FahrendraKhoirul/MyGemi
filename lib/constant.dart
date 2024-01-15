@@ -58,3 +58,7 @@ TextStyle bold30 = GoogleFonts.openSans(
 Color customGrey = const Color(0xffF8F8F8);
 Color customGreyText = const Color(0xff6C6C6C);
 Color customBlack = const Color(0xff2c2c2c);
+Color customGreyIcon = const Color(0xFFD9D9D9);
+
+const defaultPadding = 20.0;
+const defaultRadius = 12.0;
