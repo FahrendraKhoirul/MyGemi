@@ -19,6 +19,13 @@ class GeminiProController extends GetxController with StateMixin<GeminiPro> {
     Contents content = Contents(parts: [Parts(text: message)], role: "user");
     chats.value.contents?.add(content);
 
+    // update UI
+    if (chats.value.contents != null) {
+      change(chats.value, status: RxStatus.success());
+    } else {
+      change(chats.value, status: RxStatus.empty());
+    }
+
     // call API and store gemini response to chats
     await GeminiAPI.getGeminiPro(chats.value).then((val) {
       chats.value.contents?.add(val!);

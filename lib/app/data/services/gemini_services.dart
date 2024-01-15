@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:mygemi/app/data/models/gemini_pro_model.dart';
+import 'package:mygemi/app/data/models/gemini_pro_vision_model.dart';
 
 class GeminiAPI {
   static const myGeminiApi = "AIzaSyB4e9E_vKK4izqXWzo1kmnQ0FfmDXI58L8";
@@ -44,6 +45,30 @@ class GeminiAPI {
         return Contents(parts: [Parts(text: e.message)]);
       }
       return Contents(parts: [Parts(text: e.toString())]);
+    }
+  }
+
+  static Future<String?> getGeminiProVision(Map<String, dynamic> body) async {
+    try {
+      final response = await dio.post(geminiProUrl,
+          data: body,
+          queryParameters: {"key": myGeminiApi},
+          options: Options(headers: {"Content-Type": "application/json"}));
+
+      if (response.statusCode == 200) {
+        var result =
+            response.data["candidates"][0]["content"]["parts"][0]["text"];
+        // print("TESSS Result Services:" + response.data.toString());
+        return result;
+      } else {
+        return response.statusMessage;
+      }
+    } catch (e, s) {
+      log(e.toString(), stackTrace: s);
+      if (e is DioException) {
+        return e.message;
+      }
+      return e.toString();
     }
   }
 }
