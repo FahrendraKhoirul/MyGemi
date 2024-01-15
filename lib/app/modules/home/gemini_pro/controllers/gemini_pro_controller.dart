@@ -5,7 +5,6 @@ import 'package:mygemi/app/data/services/gemini_services.dart';
 
 class GeminiProController extends GetxController with StateMixin<GeminiPro> {
   var chats = GeminiPro(contents: []).obs;
-  var isThinking = true.obs;
   Rx<TextEditingController> inputController = TextEditingController().obs;
   Rx<ScrollController> scrollController = ScrollController().obs;
 
@@ -17,7 +16,6 @@ class GeminiProController extends GetxController with StateMixin<GeminiPro> {
 
   void generateContent(String message) async {
     // add to chats
-    isThinking.value = true;
     Contents content = Contents(parts: [Parts(text: message)], role: "user");
     chats.value.contents?.add(content);
 
@@ -36,7 +34,6 @@ class GeminiProController extends GetxController with StateMixin<GeminiPro> {
     // call API and store gemini response to chats
     await GeminiAPI.getGeminiPro(chats.value).then((val) {
       chats.value.contents?.add(val!);
-      isThinking.value = true;
       print("TESSS RESPONSE :" + val!.parts.toString());
     });
 
@@ -53,7 +50,5 @@ class GeminiProController extends GetxController with StateMixin<GeminiPro> {
     } else {
       change(chats.value, status: RxStatus.empty());
     }
-
-    isThinking.value = false;
   }
 }

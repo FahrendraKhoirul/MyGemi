@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mygemi/app/data/models/gemini_pro_model.dart';
 import 'package:mygemi/app/widgets/global_widgets.dart';
 import 'package:mygemi/constant.dart';
@@ -39,12 +41,7 @@ class GeminiProView extends GetView<GeminiProController> {
                           ? itemChat(state, index)
                               .animate(delay: const Duration(milliseconds: 250))
                               .fadeIn()
-                          : controller.isThinking.value ? Image.asset(
-                                      "assets/images/icon_paper plane.png")
-                                  .animate(
-                                      delay: const Duration(milliseconds: 250))
-                                  .shake()
-                              : itemChat(state, index)
+                          : itemChat(state, index)
                               .animate(delay: const Duration(milliseconds: 500))
                               .fadeIn();
                     },
@@ -86,9 +83,12 @@ class GeminiProView extends GetView<GeminiProController> {
                 width: 39,
               ),
               Expanded(
-                  child: Text(
-                state.contents![index].parts![0].text!,
-                style: regular14,
+                  child: MarkdownBody(
+                data: state.contents![index].parts![0].text!,
+                selectable: true,
+                styleSheet: MarkdownStyleSheet(
+                    code: GoogleFonts.sourceCodePro(
+                        color: customBlack, fontSize: 14)),
               ))
             ],
           )
