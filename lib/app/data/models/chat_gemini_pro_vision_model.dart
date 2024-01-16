@@ -1,4 +1,6 @@
-import 'dart:io';
+
+
+import 'package:image_picker/image_picker.dart';
 
 class ChatGeminiProVision {
   ChatUser? user;
@@ -8,7 +10,7 @@ class ChatGeminiProVision {
 }
 
 class ChatUser {
-  List<File>? image;
+  List<XFile>? image;
   String? text;
 
   ChatUser({this.image, this.text});

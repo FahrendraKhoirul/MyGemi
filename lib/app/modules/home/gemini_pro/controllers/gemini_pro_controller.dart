@@ -34,7 +34,7 @@ class GeminiProController extends GetxController with StateMixin<GeminiPro> {
     // call API and store gemini response to chats
     await GeminiAPI.getGeminiPro(chats.value).then((val) {
       chats.value.contents?.add(val!);
-      print("TESSS RESPONSE :" + val!.parts.toString());
+      // print("TESSS RESPONSE :" + val!.parts.toString());
     });
 
     // update UI

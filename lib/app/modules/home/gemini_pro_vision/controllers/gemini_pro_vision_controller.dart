@@ -1,8 +1,8 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:mygemi/app/data/models/chat_gemini_pro_vision_model.dart';
 import 'package:mygemi/app/data/services/gemini_services.dart';
 
@@ -11,13 +11,10 @@ class GeminiProVisionController extends GetxController
   RxList<ChatGeminiProVision> chats = <ChatGeminiProVision>[].obs;
   Rx<TextEditingController> inputController = TextEditingController().obs;
   Rx<ScrollController> scrollController = ScrollController().obs;
+  final ImagePicker picker = ImagePicker();
+  RxList<XFile> images = <XFile>[].obs;
 
-  @override
-  void onInit() {
-    super.onInit();
-  }
-
-  void generateContent(List<File> images, String message) async {
+  void generateContent(List<XFile> images, String message) async {
     ChatGeminiProVision content = ChatGeminiProVision();
 
     // create user
@@ -31,21 +28,25 @@ class GeminiProVisionController extends GetxController
     chats.add(content);
 
     // update UI
-    if (chats.value.isNotEmpty) {
-      change(chats.value, status: RxStatus.success());
+    if (chats.isNotEmpty) {
+      change(chats, status: RxStatus.success());
     } else {
-      change(chats.value, status: RxStatus.empty());
+      change(chats, status: RxStatus.empty());
     }
 
     // CALL API
     // convert images to base64
     List<String> base64Images = [];
     for (var image in images) {
-      base64Images.add(convertImageToBase64(image));
+      base64Images.add(await convertImageToBase64(image));
     }
     List<String> imagesType = [];
     for (var image in images) {
-      imagesType.add("image/${image.path.split(".").last.toLowerCase()}");
+      String typeTemp = image.path.split(".").last.toLowerCase();
+      if (typeTemp == "jpg") {
+        typeTemp = "jpeg";
+      }
+      imagesType.add("image/$typeTemp");
     }
 
     // create body
@@ -61,13 +62,16 @@ class GeminiProVisionController extends GetxController
                       }
                     })
                 .toList(),
-            {"text": message}
+            {"text": message.isEmpty ? "tes" : message}
           ]
         }
       ]
     };
 
+    print("Test Body:" + body.toString());
+
     await GeminiAPI.getGeminiProVision(body).then((val) {
+      print("TESSS Result Controller:" + val.toString());
       // create gemini pro
       ChatModel geminiPro = ChatModel(text: val!);
 
@@ -75,19 +79,24 @@ class GeminiProVisionController extends GetxController
       content.geminiPro = geminiPro;
 
       // update UI
-      if (chats.value.isNotEmpty) {
-        change(chats.value, status: RxStatus.success());
+      if (chats.isNotEmpty) {
+        change(chats, status: RxStatus.success());
       } else {
-        change(chats.value, status: RxStatus.empty());
+        change(chats, status: RxStatus.empty());
       }
     });
   }
 
-  String convertImageToBase64(File image) {
-    List<int> imageBytes = image.readAsBytesSync();
+  Future<String> convertImageToBase64(XFile image) async {
+    List<int> imageBytes = await image.readAsBytes();
     String base64Image = base64Encode(imageBytes);
     return base64Image;
   }
 
-  void pickI
+  void pickImage() async {
+    final List<XFile> imagesTemp = await picker.pickMultiImage();
+    if (imagesTemp.isNotEmpty) {
+      images.value = imagesTemp;
+    }
+  }
 }

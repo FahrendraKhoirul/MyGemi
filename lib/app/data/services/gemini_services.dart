@@ -1,8 +1,8 @@
+import 'dart:convert';
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:mygemi/app/data/models/gemini_pro_model.dart';
-import 'package:mygemi/app/data/models/gemini_pro_vision_model.dart';
 
 class GeminiAPI {
   static const myGeminiApi = "AIzaSyB4e9E_vKK4izqXWzo1kmnQ0FfmDXI58L8";
@@ -50,8 +50,8 @@ class GeminiAPI {
 
   static Future<String?> getGeminiProVision(Map<String, dynamic> body) async {
     try {
-      final response = await dio.post(geminiProUrl,
-          data: body,
+      final response = await dio.post(geminiProVisionUrl,
+          data: jsonEncode(body),
           queryParameters: {"key": myGeminiApi},
           options: Options(headers: {"Content-Type": "application/json"}));
 
