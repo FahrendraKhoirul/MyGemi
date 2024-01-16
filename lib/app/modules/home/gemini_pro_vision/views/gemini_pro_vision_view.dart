@@ -16,6 +16,8 @@ class GeminiProVisionView extends GetView<GeminiProVisionController> {
         appBar: AppBar(
           title: const Text('Gemini Pro Vision'),
           centerTitle: true,
+          backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
         body: Container(
           height: double.infinity,
