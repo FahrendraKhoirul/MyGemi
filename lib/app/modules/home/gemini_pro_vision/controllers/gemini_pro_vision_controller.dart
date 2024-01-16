@@ -9,6 +9,8 @@ import 'package:mygemi/app/data/services/gemini_services.dart';
 class GeminiProVisionController extends GetxController
     with StateMixin<List<ChatGeminiProVision>> {
   RxList<ChatGeminiProVision> chats = <ChatGeminiProVision>[].obs;
+  Rx<TextEditingController> inputController = TextEditingController().obs;
+  Rx<ScrollController> scrollController = ScrollController().obs;
 
   @override
   void onInit() {
@@ -86,4 +88,6 @@ class GeminiProVisionController extends GetxController
     String base64Image = base64Encode(imageBytes);
     return base64Image;
   }
+
+  void pickI
 }
