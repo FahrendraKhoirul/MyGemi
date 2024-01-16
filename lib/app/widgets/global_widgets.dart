@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mygemi/constant.dart';
 
-Widget inputForm(TextEditingController controller,
-    ScrollController scrollController, VoidCallback func) {
+Widget inputForm(TextEditingController controller, VoidCallback func) {
   return Container(
     padding: const EdgeInsets.symmetric(vertical: defaultPadding),
     child: Row(
@@ -33,7 +32,7 @@ Widget inputForm(TextEditingController controller,
                     borderRadius: BorderRadius.circular(defaultRadius),
                     borderSide: BorderSide(
                       color: customBlack,
-                      width: 1.0,
+                      width: 1.6,
                     ),
                   ),
                 )),
