@@ -137,8 +137,8 @@ class GeminiProVisionView extends GetView<GeminiProVisionController> {
                     : Container();
               }),
               inputFormWithImage(controller.inputController.value, () {
-                controller.generateContent(
-                    controller.images, controller.inputController.value.text);
+                controller
+                    .generateContent(controller.inputController.value.text);
                 controller.inputController.value.clear();
               }, () {
                 controller.pickImage();

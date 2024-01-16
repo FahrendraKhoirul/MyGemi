@@ -52,6 +52,7 @@ class GeminiProView extends GetView<GeminiProController> {
                 controller
                     .generateContent(controller.inputController.value.text);
                 controller.inputController.value.clear();
+                
               })
             ],
           ),

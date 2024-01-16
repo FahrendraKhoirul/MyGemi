@@ -20,15 +20,21 @@ class GeminiProVisionController extends GetxController
     super.onInit();
   }
 
-  void generateContent(List<XFile> images, String message) async {
-    ChatGeminiProVision content = ChatGeminiProVision();
+  void generateContent(String message) async {
+    // print("Tes History:${chats.first.user!.image!.first.name}, $message");
+// Assuming `images` is the list you're adding to `user.image`
+    List<XFile> newImages =
+        List.from(images); // Create a new list with the contents of `images`
 
-    // create user
+// Create a new user with `newImages`
     ChatUser user = ChatUser(
-      image: images,
+      image: newImages,
       text: message,
     );
-    content.user = user;
+
+    ChatGeminiProVision content = ChatGeminiProVision(user: user);
+
+    print("Tesss:${user.image!.length}, ${user.image!.first.name}}");
 
     // add to chats
     chats.add(content);
@@ -80,7 +86,10 @@ class GeminiProVisionController extends GetxController
       ]
     };
 
-    print("Test Body:" + body.toString());
+    // delete images
+    images.clear();
+
+    // print("Test Body:$body");
 
     await GeminiAPI.getGeminiProVision(body).then((val) {
       // print("TESSS Result Controller:" + val.toString());
@@ -116,7 +125,8 @@ class GeminiProVisionController extends GetxController
   void pickImage() async {
     final List<XFile> imagesTemp = await picker.pickMultiImage();
     if (imagesTemp.isNotEmpty) {
-      images.value = imagesTemp;
+      images.clear();
+      images.addAll(imagesTemp);
     }
   }
 }
