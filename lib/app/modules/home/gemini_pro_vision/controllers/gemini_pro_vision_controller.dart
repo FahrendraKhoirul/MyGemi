@@ -14,6 +14,12 @@ class GeminiProVisionController extends GetxController
   final ImagePicker picker = ImagePicker();
   RxList<XFile> images = <XFile>[].obs;
 
+  @override
+  void onInit() {
+    change(chats, status: RxStatus.empty());
+    super.onInit();
+  }
+
   void generateContent(List<XFile> images, String message) async {
     ChatGeminiProVision content = ChatGeminiProVision();
 
@@ -71,7 +77,7 @@ class GeminiProVisionController extends GetxController
     print("Test Body:" + body.toString());
 
     await GeminiAPI.getGeminiProVision(body).then((val) {
-      print("TESSS Result Controller:" + val.toString());
+      // print("TESSS Result Controller:" + val.toString());
       // create gemini pro
       ChatModel geminiPro = ChatModel(text: val!);
 

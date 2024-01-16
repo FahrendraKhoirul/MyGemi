@@ -25,9 +25,32 @@ class GeminiProVisionView extends GetView<GeminiProVisionController> {
               top: 0, bottom: 0, left: defaultPadding, right: defaultPadding),
           child: Column(
             children: [
-              const Expanded(
-                  child: Center(
-                child: Text("GeminiProVisionView is working"),
+              Expanded(
+                  child: controller.obx(
+                (state) {
+                  return ListView.builder(
+                    controller: controller.scrollController.value,
+                    padding:
+                        const EdgeInsets.symmetric(vertical: defaultPadding),
+                    itemCount: state!.length,
+                    itemBuilder: (context, index) {
+                      return Column(
+                        children: [
+                          Text(state[index].user!.text!),
+                          const SizedBox(
+                            height: 10,
+                          ),
+                          Text(state[index].geminiPro!.text!)
+                        ],
+                      );
+                    },
+                  );
+                },
+                onEmpty: Center(
+                    child: Image.asset(
+                  "assets/images/paper planes.png",
+                  width: 100,
+                )),
               )),
               Obx(() {
                 return controller.images.isNotEmpty
