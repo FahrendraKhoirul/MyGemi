@@ -36,6 +36,12 @@ class GeminiProVisionController extends GetxController
     // update UI
     if (chats.isNotEmpty) {
       change(chats, status: RxStatus.success());
+      if (scrollController.value.hasClients) {
+        scrollController.value.animateTo(
+            scrollController.value.position.extentTotal,
+            curve: Curves.easeOut,
+            duration: const Duration(milliseconds: 500));
+      }
     } else {
       change(chats, status: RxStatus.empty());
     }
@@ -87,10 +93,18 @@ class GeminiProVisionController extends GetxController
       // update UI
       if (chats.isNotEmpty) {
         change(chats, status: RxStatus.success());
+        if (scrollController.value.hasClients) {
+          scrollController.value.animateTo(
+              scrollController.value.position.extentTotal,
+              curve: Curves.easeOut,
+              duration: const Duration(milliseconds: 500));
+        }
       } else {
         change(chats, status: RxStatus.empty());
       }
     });
+
+    // images.clear();
   }
 
   Future<String> convertImageToBase64(XFile image) async {

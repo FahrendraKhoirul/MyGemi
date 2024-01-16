@@ -34,11 +34,13 @@ class CandidatesVision {
   int? index;
   List<SafetyRatings>? safetyRatings;
 
-  CandidatesVision({this.content, this.finishReason, this.index, this.safetyRatings});
+  CandidatesVision(
+      {this.content, this.finishReason, this.index, this.safetyRatings});
 
   CandidatesVision.fromJson(Map<String, dynamic> json) {
-    content =
-        json['content'] != null ? ContentVision.fromJson(json['content']) : null;
+    content = json['content'] != null
+        ? ContentVision.fromJson(json['content'])
+        : null;
     finishReason = json['finishReason'];
     index = json['index'];
     if (json['safetyRatings'] != null) {
