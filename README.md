@@ -1,16 +1,13 @@
-# mygemi
+# MyGemi App
 
-A new Flutter project.
+MyGemi is a chatbot application that utilizes the API from Google Gemini AI. The app provides two models of Gemini AI, namely Gemini Pro and Gemini Pro Vision. MyGemi seamlessly integrates these two models into the app's conversational chat interface, making it easy for users to interact and utilize its functionality.
 
-## Getting Started
+## Contributors
 
-This project is a starting point for a Flutter application.
+- Fahrendra Khoirul Ihtada ([@fahrendrakhoirul](https://github.com/FahrendraKhoirul))
+- Rizha Alfianita ([@rizhaalfianita](https://github.com/rizhaalfianita))
 
-A few resources to get you started if this is your first Flutter project:
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+## License
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+This project is licensed under the MIT License - see the [MIT LICENSE](https://choosealicense.com/licenses/mit/) file for details.
