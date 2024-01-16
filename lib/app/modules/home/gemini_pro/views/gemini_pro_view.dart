@@ -12,9 +12,10 @@ class GeminiProView extends GetView<GeminiProController> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('GeminiProView'),
+          title: const Text('Gemini Pro Chat'),
           centerTitle: true,
           backgroundColor: Colors.transparent,
+          elevation: 0,
         ),
         body: Container(
           height: double.infinity,
@@ -52,7 +53,6 @@ class GeminiProView extends GetView<GeminiProController> {
                 controller
                     .generateContent(controller.inputController.value.text);
                 controller.inputController.value.clear();
-                
               })
             ],
           ),
