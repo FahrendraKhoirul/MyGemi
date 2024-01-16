@@ -1,8 +1,8 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:mygemi/app/widgets/global_widgets.dart';
 import 'package:mygemi/constant.dart';
 
@@ -137,9 +137,31 @@ class GeminiProVisionView extends GetView<GeminiProVisionController> {
                     : Container();
               }),
               inputFormWithImage(controller.inputController.value, () {
-                controller
+                if (controller.images.isEmpty) {
+                  final snackBar = SnackBar(
+                    content: Text('You must include an image!',
+                        style: GoogleFonts.openSans(
+                            color: Colors.white, fontSize: 16)),
+                    showCloseIcon: true,
+                    behavior: SnackBarBehavior.floating,
+                    elevation: 1,
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 5, horizontal: defaultPadding),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(defaultRadius),
+                    ),
+                    backgroundColor: Colors.red[800],
+                    margin: EdgeInsets.only(
+                        bottom: MediaQuery.of(context).size.height - 150,
+                        right: 20,
+                        left: 20),
+                  );
+                  ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                }
+                else{
+                  controller
                     .generateContent(controller.inputController.value.text);
-                controller.inputController.value.clear();
+                controller.inputController.value.clear();}
               }, () {
                 controller.pickImage();
               })
