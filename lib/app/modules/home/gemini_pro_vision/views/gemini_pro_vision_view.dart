@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
+import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mygemi/app/widgets/global_widgets.dart';
@@ -13,11 +14,16 @@ class GeminiProVisionView extends GetView<GeminiProVisionController> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+        backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Gemini Pro Vision'),
+          title: Text(
+            'Gemini Pro Vision',
+            style: semibold18,
+          ),
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          surfaceTintColor: Colors.white,
         ),
         body: Container(
           height: double.infinity,
@@ -114,10 +120,13 @@ class GeminiProVisionView extends GetView<GeminiProVisionController> {
                                         width: 39,
                                       ),
                                       Expanded(
-                                          child: Text(
-                                        state[index].geminiPro!.text!,
-                                        style: regular14,
-                                        textAlign: TextAlign.justify,
+                                          child: MarkdownBody(
+                                        data: state[index].geminiPro!.text!,
+                                        selectable: true,
+                                        styleSheet: MarkdownStyleSheet(
+                                            code: GoogleFonts.sourceCodePro(
+                                                color: customBlack,
+                                                fontSize: 14)),
                                       ))
                                     ],
                                   ),
@@ -159,11 +168,11 @@ class GeminiProVisionView extends GetView<GeminiProVisionController> {
                         left: 20),
                   );
                   ScaffoldMessenger.of(context).showSnackBar(snackBar);
-                }
-                else{
+                } else {
                   controller
-                    .generateContent(controller.inputController.value.text);
-                controller.inputController.value.clear();}
+                      .generateContent(controller.inputController.value.text);
+                  controller.inputController.value.clear();
+                }
               }, () {
                 controller.pickImage();
               })

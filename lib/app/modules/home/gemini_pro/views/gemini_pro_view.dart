@@ -12,10 +12,14 @@ class GeminiProView extends GetView<GeminiProController> {
     return Scaffold(
         backgroundColor: Colors.white,
         appBar: AppBar(
-          title: const Text('Gemini Pro Chat'),
+          title: Text(
+            'Gemini Pro Chat',
+            style: semibold18,
+          ),
           centerTitle: true,
           backgroundColor: Colors.transparent,
           elevation: 0,
+          surfaceTintColor: Colors.white,
         ),
         body: Container(
           height: double.infinity,
