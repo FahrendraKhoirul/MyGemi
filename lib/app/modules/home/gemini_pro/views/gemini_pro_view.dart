@@ -18,6 +18,7 @@ class GeminiProView extends GetView<GeminiProController> {
           ),
           centerTitle: true,
           backgroundColor: Colors.transparent,
+          foregroundColor: customBlack,
           elevation: 0,
           surfaceTintColor: Colors.white,
         ),
