@@ -1,9 +1,9 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
-import 'package:flutter_animate/flutter_animate.dart';
 import 'package:flutter_markdown/flutter_markdown.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:loading_indicator/loading_indicator.dart';
 import 'package:mygemi/app/widgets/global_widgets.dart';
 import 'package:mygemi/constant.dart';
 
@@ -21,6 +21,7 @@ class GeminiProVisionView extends GetView<GeminiProVisionController> {
             style: semibold18,
           ),
           centerTitle: true,
+          foregroundColor: customBlack,
           backgroundColor: Colors.transparent,
           elevation: 0,
           surfaceTintColor: Colors.white,
@@ -71,8 +72,8 @@ class GeminiProVisionView extends GetView<GeminiProVisionController> {
                                             defaultRadius),
                                         child: Image.file(
                                           File(img.path),
-                                          width: 90,
-                                          fit: BoxFit.fitWidth,
+                                          height: 150,
+                                          fit: BoxFit.fitHeight,
                                         ),
                                       ),
                                     );
@@ -102,18 +103,23 @@ class GeminiProVisionView extends GetView<GeminiProVisionController> {
                                 customBlack, "Gemini"),
                             state[index].geminiPro == null
                                 ? Container(
-                                    width: 30,
+                                    width: 100,
                                     margin: const EdgeInsets.symmetric(
                                         vertical: 5, horizontal: 39),
-                                    child: Image.asset(
-                                            "assets/images/icon_paper plane.png")
-                                        .animate()
-                                        .shake(
-                                            delay: const Duration(
-                                                milliseconds: 50),
-                                            duration:
-                                                const Duration(seconds: 3)),
-                                  )
+                                    child: LoadingIndicator(
+                                      indicatorType: Indicator.ballRotateChase,
+                                      colors: [customBlack],
+                                    )
+
+                                    // Image.asset(
+                                    //         "assets/images/icon_paper plane.png")
+                                    //     .animate()
+                                    //     .shake(
+                                    //         delay: const Duration(
+                                    //             milliseconds: 50),
+                                    //         duration:
+                                    //             const Duration(seconds: 3)),
+                                    )
                                 : Row(
                                     children: [
                                       const SizedBox(

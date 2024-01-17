@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mygemi/app/data/models/chat_gemini_pro_vision_model.dart';
@@ -56,7 +58,9 @@ class GeminiProVisionController extends GetxController
     // convert images to base64
     List<String> base64Images = [];
     for (var image in images) {
-      base64Images.add(await convertImageToBase64(image));
+      // compress image
+      XFile? compressedImage = await compressImageAndGetFile(image, image.path);
+      base64Images.add(await convertImageToBase64(compressedImage!));
     }
     List<String> imagesType = [];
     for (var image in images) {
@@ -80,7 +84,7 @@ class GeminiProVisionController extends GetxController
                       }
                     })
                 .toList(),
-            {"text": message.isEmpty ? "tes" : message}
+            {"text": message.isEmpty ? "what it is?" : message}
           ]
         }
       ]
@@ -128,5 +132,17 @@ class GeminiProVisionController extends GetxController
       images.clear();
       images.addAll(imagesTemp);
     }
+  }
+
+  Future<XFile?> compressImageAndGetFile(XFile file, String targetPath) async {
+    File imageFile = File(file.path);
+    final filePath = imageFile.absolute.path;
+    final lastIndex = filePath.lastIndexOf(RegExp(r'.png|.jp'));
+    final splitted = filePath.substring(0, (lastIndex));
+    final outPath = "${splitted}_compress.jpg";
+    var result = await FlutterImageCompress.compressAndGetFile(
+        imageFile.path, outPath,
+        quality: 80, format: CompressFormat.jpeg);
+    return result;
   }
 }
